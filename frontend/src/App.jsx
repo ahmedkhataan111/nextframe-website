@@ -15,6 +15,7 @@ import ar from './i18n/ar.json'
 function App() {
   const [lang, setLang] = useState('ar')
   const [portfolio, setPortfolio] = useState([])
+  const [selectedImage, setSelectedImage] = useState(null)
   
   const translations = lang === 'en' ? en : ar;
   const isRtl = lang === 'ar';
@@ -129,7 +130,7 @@ function App() {
           {portfolio.length > 0 ? (
             <div className="portfolio-grid">
               {portfolio.map((imgUrl, idx) => (
-                <div key={idx} className="portfolio-item">
+                <div key={idx} className="portfolio-item" onClick={() => setSelectedImage(imgUrl)} style={{ cursor: 'pointer' }}>
                   <img src={imgUrl} alt={`Portfolio item ${idx + 1}`} loading="lazy" />
                 </div>
               ))}
@@ -175,6 +176,19 @@ function App() {
           </div>
         </div>
       </section>
+
+      {/* Lightbox */}
+      {selectedImage && (
+        <div className="lightbox" onClick={() => setSelectedImage(null)}>
+          <span className="lightbox-close" onClick={() => setSelectedImage(null)}>&times;</span>
+          <img 
+            src={selectedImage} 
+            alt="Fullscreen Portfolio" 
+            className="lightbox-img" 
+            onClick={(e) => e.stopPropagation()} 
+          />
+        </div>
+      )}
 
       <footer>
         <p>{translations.footer_text}</p>
