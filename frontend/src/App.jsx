@@ -24,8 +24,9 @@ function App() {
     // Set document direction
     document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
     
-    // Fetch portfolio from backend
-    fetch('http://localhost:5000/api/portfolio')
+    // Fetch portfolio from backend dynamically
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    fetch(`${apiUrl}/api/portfolio`)
       .then(res => res.json())
       .then(data => {
         if(Array.isArray(data)) {

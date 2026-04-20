@@ -26,10 +26,11 @@ app.get('/api/portfolio', (req, res) => {
         }
         
         // Filter out non-image files
+        const origin = req.protocol + '://' + req.get('host');
         const images = files.filter(file => {
             const ext = path.extname(file).toLowerCase();
             return ['.png', '.jpg', '.jpeg', '.gif', '.webp'].includes(ext);
-        }).map(file => `http://localhost:${PORT}/images/${file}`); // Return full URLs for simplicity in local dev
+        }).map(file => `${origin}/images/${file}`); // Dynamic exact URL based on host
 
         res.json(images);
     });
